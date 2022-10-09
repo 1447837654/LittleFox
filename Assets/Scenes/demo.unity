@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1570675222}
   - component: {fileID: 1570675221}
   - component: {fileID: 1570675223}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1115,6 +1115,7 @@ GameObject:
   - component: {fileID: 1586646524}
   - component: {fileID: 1586646525}
   - component: {fileID: 1586646526}
+  - component: {fileID: 1586646527}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1248,6 +1249,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 1586646524}
   playerSpeed: 10
+  jumpForce: 5
+  playerAnimator: {fileID: 1586646527}
+  playerCollider: {fileID: 1586646525}
+  ground:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!95 &1586646527
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586646521}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4b9e0b2f6513644aa811f064bdad875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1624178513
 GameObject:
   m_ObjectHideFlags: 0
