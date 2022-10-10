@@ -4,30 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // 玩家刚体
-    public Rigidbody2D playerRb;
-    // 玩家速度
-    public float playerSpeed;
-    // 跳跃力
-    public float jumpForce;
-    //玩家动画
-    public Animator playerAnimator;
-    // 玩家碰撞体
-    public Collider2D playerCollider;
-    // 图层遮罩
-    public LayerMask ground;
-    // 玩家水平移动方向
-    private float playerMoveDire;
-    // 玩家速度
-    private Vector2 playerVelocity;
-    // 玩家朝向
-    private float playerFacedDire;
-    // 控制左右翻转
-    private Vector3 playerScale;
+    private Rigidbody2D playerRb; // 玩家刚体
+    public float playerSpeed; // 玩家速度
+    public float jumpForce; // 跳跃力
+
+    private Animator playerAnimator; //玩家动画
+    public Collider2D playerCollider; // 玩家碰撞体
+    public LayerMask ground; // 图层遮罩
+    private float playerMoveDire; // 玩家水平移动方向
+    private Vector2 playerVelocity; // 玩家速度
+    private float playerFacedDire; // 玩家朝向
+    private Vector3 playerScale; // 控制左右翻转
 
     // Start is called before the first frame update
     void Start()
     {
+        playerRb = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
+
         playerVelocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y);
         playerScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
@@ -82,6 +76,20 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetBool("Falling", false);
             playerAnimator.SetBool("Idle", true);
+        }
+    }
+
+    // 拾取物品碰撞检测
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision != null)
+        {
+            Debug.Log("碰撞体为NULL");
+        }
+
+        if (collision.CompareTag("Item"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
