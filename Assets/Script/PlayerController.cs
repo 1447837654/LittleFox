@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerScale; // 控制左右翻转
     private int cherryNum; // 玩家获取的樱桃数量
     private int gemNum; // 玩家获取的钻石数量
+    private bool isHurt; // 玩家受伤
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +35,24 @@ public class PlayerController : MonoBehaviour
         cherryText.text = "Cherry:" + cherryNum;
         gemNum = 0;
         gemText.text = "Gem:" + gemNum;
+
+        isHurt = false;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Movement();
+        if (!isHurt)
+        {
+            Movement();
+        }
+        if (Mathf.Abs(playerRb.velocity.x) < 1)
+        {
+            isHurt = false;
+
+            playerAnimator.SetBool("Hurt", false);
+            playerAnimator.SetFloat("Running", 0);
+        }
     }
 
     // 玩家移动
@@ -119,16 +132,36 @@ public class PlayerController : MonoBehaviour
             }
             Destroy(collision.gameObject);
         }
-        else if (collision.CompareTag("Enemy") && playerAnimator.GetBool("Falling"))
+        else if (collision.CompareTag("Enemy"))
         {
-            playerVelocity.x = playerRb.velocity.x;
-            playerVelocity.y = jumpForce;
-            playerRb.velocity = playerVelocity;
+            if (playerAnimator.GetBool("Falling"))
+            {
+                playerVelocity.x = playerRb.velocity.x;
+                playerVelocity.y = jumpForce;
+                playerRb.velocity = playerVelocity;
 
-            playerAnimator.SetBool("Falling", false);
-            playerAnimator.SetBool("Jumping", true);
+                playerAnimator.SetBool("Falling", false);
+                playerAnimator.SetBool("Jumping", true);
 
-            Destroy(collision.gameObject);
+                Destroy(collision.gameObject);
+            }
+            else if (transform.position.x < collision.gameObject.transform.position.x)
+            {
+                playerVelocity.x = -5f;
+                playerVelocity.y = playerRb.velocity.y;
+                playerRb.velocity = playerVelocity;
+                isHurt = true;
+
+                playerAnimator.SetBool("Hurt", true);
+            }
+            else if (transform.position.x > collision.gameObject.transform.position.x)
+            {
+                playerVelocity.x = 5f;
+                playerVelocity.y = playerRb.velocity.y;
+                playerRb.velocity = playerVelocity;
+                isHurt = true;
+                playerAnimator.SetBool("Hurt", true);
+            }
         }
     }
 }
