@@ -132,7 +132,16 @@ public class PlayerController : MonoBehaviour
             }
             Destroy(collision.gameObject);
         }
-        else if (collision.CompareTag("Enemy"))
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision == null)
+        {
+            Debug.Log("Åö×²ÌåÎªNULL");
+        }
+
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             if (playerAnimator.GetBool("Falling"))
             {
